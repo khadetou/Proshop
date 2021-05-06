@@ -1,5 +1,6 @@
 import React from 'react';
 import {Navbar, Nav, Container} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 import { FaShoppingCart} from "react-icons/fa";
 import { FaUserAlt} from "react-icons/fa";
 const Header = () => {
@@ -9,20 +10,29 @@ const Header = () => {
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
-                    <Brand href="/">ProShop</Brand>
+                    <LinkContainer to='/'>
+                        <Brand>ProShop</Brand>
+                    </LinkContainer>
+                    
 
                     <Toggle aria-controls="basic-navbar-nav" />
 
                     <Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
-                            <Link href="/cart" className="d-flex justify-content-center align-items-center">
+                            <LinkContainer to='/cart'>
+                                <Link className="d-flex justify-content-center align-items-center">
                                 <FaShoppingCart className="me-1"/>
                                 Cart
-                            </Link>
-                            <Link href="/login" className="d-flex justify-content-center align-items-center">
+                                </Link>
+                            </LinkContainer>
+
+                            <LinkContainer to='/login'>
+                                <Link className="d-flex justify-content-center align-items-center">
                                 <FaUserAlt className="me-1"/>
                                 Sign in
-                            </Link>
+                                </Link>
+                            </LinkContainer>
+                          
                         </Nav>
                     </Collapse>
                 </Container>
