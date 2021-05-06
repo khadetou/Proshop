@@ -1,9 +1,16 @@
-
+import Header from './components/Header';
+import Main from './components/Main';
+import Footer from './components/Footer';
 const  App = ()=> {
   return (
-    <div className="App">
-        <h1>this is what i am talking about </h1>
-    </div>
+    <>
+        {/* Header */}
+        <Header/>
+        {/* Main content */}
+        <Main/>
+        {/* Footer */}
+        <Footer/>
+    </>
   );
 }
 
