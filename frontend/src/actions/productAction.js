@@ -53,7 +53,7 @@ export const getProductDetails = (id) => async (dispatch)=>{
 //Add TO CART
 export const addCart = (id, qty)=> async (dispatch, getState)=>{
    
-    const {data} = await axios.post(`/api/products/${id}`);
+    const {data} = await axios.get(`/api/products/${id}`);
 
     dispatch({
         type: CART_ADD_ITEM,

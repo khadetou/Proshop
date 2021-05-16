@@ -9,7 +9,7 @@ import {Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap';
 import Rating from '../SubComponents/Rating';
 
 const ProductScreen = ({history, match}) => {
-    const [qty, setQty] = useState(0);
+    const [qty, setQty] = useState(1);
 
     const dispatch = useDispatch()
     const productDetail = useSelector(state => state.productDetail);

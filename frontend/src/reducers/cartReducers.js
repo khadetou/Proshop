@@ -4,8 +4,6 @@ const cartsItemsFromStorage = localStorage.getItem('cartItems')? JSON.parse(loca
 
 const initialState = {
     cartItems: cartsItemsFromStorage,
-    error: null,
-    loading: null
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
