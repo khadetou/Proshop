@@ -1,8 +1,8 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
-export const getProducts = () => async dispatch=>{
+export const getProducts = () => async (dispatch, getAction)=>{
 
     try {
         setProductLoading();
@@ -25,8 +25,8 @@ export const getProducts = () => async dispatch=>{
 
 
 
-//GET PRODUCTS
-export const getProductDetails = (id) => async dispatch=>{
+//GET PRODUCTDETAILS
+export const getProductDetails = (id) => async (dispatch)=>{
 
     try {
         setProductLoading();
@@ -48,6 +48,26 @@ export const getProductDetails = (id) => async dispatch=>{
     }
 
 } 
+
+
+//Add TO CART
+export const addCart = (id, qty)=> async (dispatch, getState)=>{
+   
+    const {data} = await axios.post(`/api/products/${id}`);
+
+    dispatch({
+        type: CART_ADD_ITEM,
+        preload: {
+            product: data._id,
+            name: data.name,
+            image: data.image,
+            price: data.price,
+            countInStock: data.countInStock,
+            qty
+        }
+    })
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
 
 //SET LOADING TRUE  
 export const setProductLoading = ()=>{
