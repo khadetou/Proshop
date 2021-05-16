@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Row, Col, ListGroup, Image, Form, Button, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import Message from '../Message';
-import {addCart} from '../../actions/productAction';
+import {addCart, removeToCart} from '../../actions/productAction';
 import { BsTrash } from "react-icons/bs";
 const CartScreen = ({match, location, history}) => {
     const productId = match.params.id;
@@ -14,10 +14,10 @@ const CartScreen = ({match, location, history}) => {
     const {cartItems} = cart;
 
     const {Item} = ListGroup;
-
+    
     //Functions
-    const removeFromCartHandler = ()=>{
-        console.log('romve');
+    const removeFromCartHandler = (id)=>{
+        dispatch(removeToCart(id));
     }
 
     const checkoutHandler = () =>{

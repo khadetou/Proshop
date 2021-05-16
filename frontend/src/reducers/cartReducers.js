@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM } from '../actions/type';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../actions/type';
 
 const cartsItemsFromStorage = localStorage.getItem('cartItems')? JSON.parse(localStorage.getItem('cartItems')): [];
 
@@ -23,6 +23,12 @@ export default (state = initialState, action)=>{
                     ...state,
                     cartItems: [...state.cartItems, item]
                 }
+            }
+            
+        case CART_REMOVE_ITEM:
+            return{
+                ...state,
+                cartItems: state.cartItems.filter(cartItem=>cartItem.product !== preload)
             }
         default: 
             return state;

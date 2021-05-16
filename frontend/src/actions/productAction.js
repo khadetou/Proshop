@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -67,6 +67,16 @@ export const addCart = (id, qty)=> async (dispatch, getState)=>{
         }
     })
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+//DELETE TO CART
+export const removeToCart = (id) => async (dispatch, getState) =>{
+   
+   dispatch({
+       type: CART_REMOVE_ITEM,
+       preload: id
+   })
+   localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
 }
 
 //SET LOADING TRUE  
