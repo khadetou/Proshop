@@ -2,7 +2,7 @@ import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_L
 import axios from 'axios';
 
 //GET PRODUCTS
-export const getProducts = () => async (dispatch, getAction)=>{
+export const getProducts = () => async (dispatch)=>{
 
     try {
         setProductLoading();
