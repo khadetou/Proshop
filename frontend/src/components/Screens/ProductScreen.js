@@ -22,9 +22,12 @@ const ProductScreen = ({history, match}) => {
 
     const {name, image, rating, numReviews, price, description, countInStock} = productsD
     const {Item} = ListGroup;
+   
 
     const addToCartHandler = ()=>{
+    
         history.push(`/cart/${match.params.id}?qty=${qty}`);
+        console.log(history)
     }
 
     return (

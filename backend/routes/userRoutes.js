@@ -10,9 +10,11 @@ const router = express.Router();
 
 //@desc Auth user & get token
 //@route Post /api/users
+//@route Registering
 //@access public
-router.post('/',[check('name','Name is required'),check('email', 'Enter a valid email').isEmail(), check('password', 'Enter a password with 6 or more characters').isLength({min: 6})], async (req, res)=>{
+router.post('/',[check('name','Name is required').not().isEmpty(),check('email', 'Enter a valid email').isEmail(), check('password', 'Enter a password with 6 or more characters').isLength({min: 6})], async (req, res)=>{
     const errors = validationResult(req);
+   console.log(errors)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }

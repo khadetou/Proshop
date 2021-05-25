@@ -10,7 +10,7 @@ import bcryptjs from 'bcryptjs';
 const router = express.Router();
 
 //@route   GET /api/user/profile
-//@desc    get uses info
+//@desc    get user info
 //@access  Private
 
 router.get('/profile', authMiddleware, async(req, res)=>{

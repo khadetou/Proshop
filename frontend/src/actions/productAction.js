@@ -5,7 +5,6 @@ import axios from 'axios';
 export const getProducts = () => async (dispatch)=>{
 
     try {
-        setProductLoading();
         dispatch({
             type: PRODUCT_LIST_RESQUEST
         })
