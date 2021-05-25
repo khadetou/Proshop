@@ -3,7 +3,7 @@ import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_SUCCESS, USER_LOADED, L
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
-    loading: null,
+    loading: true,
     user: null
 }
 
@@ -15,14 +15,15 @@ export default (state = initialState, action)=>{
             return{
                 ...state,
                 isAuthenticated: true,
-                laoding: false,
-                user: preload
+                user: preload,
+                loading: false
             }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
+            localStorage.setItem('token', preload.token)
             return{
                 ...state,
-                ...preload,
+                 ...preload,
                 isAuthenticated: true,
                 loading: false
             }
@@ -39,6 +40,6 @@ export default (state = initialState, action)=>{
             }
             
         default:
-            break;
+            return state;
     }
 }

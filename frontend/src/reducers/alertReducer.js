@@ -12,6 +12,7 @@ export default (state = initialState, action)=>{
             ]
         case REMOVE_ALERT:
             return state.filter(alert => alert.id !== preload);
+            
         default:
             return state;
     }

@@ -1,4 +1,3 @@
-import {} from './types';
 import {setAlert} from './alertAction';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
@@ -6,6 +5,7 @@ import { AUTH_ERROR, LOGIN_SUCCESS, LOG_OUT, REGISTER_FAIL, REGISTER_SUCCESS, US
 //LOAD USER
 export const loadUser = ()=> async dispatch =>{
 
+  
     if(localStorage.token){
         setAuthToken(localStorage.token)
     }
@@ -17,6 +17,7 @@ export const loadUser = ()=> async dispatch =>{
             preload: data
         })
     }catch(err){
+       
         dispatch({
             type: AUTH_ERROR
         })
@@ -42,11 +43,11 @@ export const register  = ({name, email, password})=> async dispatch =>{
         })
 
         dispatch(loadUser());
-
+        dispatch (setAlert('Loged in successfully', 'success'))
     }catch(error){
         const errors = error.response.data.errors;
         if(errors){
-            errors.forEach(error=> dispatch (setAlert(error.msg, 'danger', 600)));
+            errors.forEach(error=> dispatch (setAlert(error.msg, 'danger')));
         }
 
         dispatch({
@@ -57,6 +58,8 @@ export const register  = ({name, email, password})=> async dispatch =>{
 
     //LOGIN USER
     export const login = ({email, password})=> async dispatch =>{
+        
+
         const config = {
             headers:{
                 'Content-Type': 'application/json'
@@ -65,7 +68,7 @@ export const register  = ({name, email, password})=> async dispatch =>{
         const body = JSON.stringify({email, password});
 
         try{
-            const {data} = await axios.post('/api/user');
+            const {data} = await axios.post('/api/user', body, config);
             dispatch({
                 type: LOGIN_SUCCESS,
                 preload: data
