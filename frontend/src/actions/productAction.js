@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -72,6 +72,13 @@ export const addCart = (id, qty)=> async (dispatch, getState)=>{
 export const saveShippingAddress = (data)=> async dispatch =>{
     dispatch({
         type: CART_SAVE_SHIPPING_ADDRESS,
+        preload: data
+    })
+}
+//SAVE PAYMENT CART LOCCALLY
+export const savePaymentMethod = (data)=> async dispatch =>{
+    dispatch({
+        type: CART_SAVE_PAYMENT_METHOD,
         preload: data
     })
 }

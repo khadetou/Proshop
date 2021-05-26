@@ -1,12 +1,18 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS } from '../actions/type';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from '../actions/type';
 
-const cartsItemsFromStorage = localStorage.getItem('cartItems')? JSON.parse(localStorage.getItem('cartItems')): [];
-
-const shippingAddressFromStorage = localStorage.getItem('shippingAddress')? JSON.parse(localStorage.getItem('shippingAddress')): {};
+const cartsItemsFromStorage = localStorage.getItem('cartItems')? 
+JSON.parse(localStorage.getItem('cartItems')): 
+[];
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')? JSON.parse(localStorage.getItem('shippingAddress')):
+{};
+const paymentMethodFromStorage = localStorage.getItem('paymentMethod')? 
+JSON.parse(localStorage.getItem('paymentMethod')) : 
+{};
 
 const initialState = {
     cartItems: cartsItemsFromStorage,
-    shippingAddress: shippingAddressFromStorage
+    shippingAddress: shippingAddressFromStorage,
+    paymentMethod: paymentMethodFromStorage
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -38,6 +44,11 @@ export default (state = initialState, action)=>{
             return{
                 ...state,
                shippingAddress: preload
+            }
+        case CART_SAVE_PAYMENT_METHOD:
+            return{
+                ...state,
+               paymentMethod: preload
             }
 
 
