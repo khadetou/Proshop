@@ -64,9 +64,9 @@ router.post('/',[check('name','Name is required').not().isEmpty(),check('email',
 //@desc Update User credentials most of all his password
 //@route Put api/users/profile
 //@access Private
-router.put('/',[authMiddleware, check('name', 'Name is required').not().isEmpty(),
-                check('email','Enter a valid email').isEmail(),
-            check('password', 'Enter a password with 6 or more characters').isLength({min: 6})], async(req, res)=>{
+router.put('/profile-edit',[authMiddleware, 
+            check('password', 'Enter a password with 6 or more characters')
+            .isLength({min: 6})], async(req, res)=>{
 
                 const errors = validationResult(req);
                 if(!errors.isEmpty()){
@@ -92,7 +92,6 @@ router.put('/',[authMiddleware, check('name', 'Name is required').not().isEmpty(
                         _id: updatedUser._id,
                         name: updatedUser.name,
                         email: updatedUser.email,
-                        password: updatedUser.password,
                         isAdmin: updatedUser.isAdmin
                     })
 

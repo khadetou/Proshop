@@ -12,12 +12,14 @@ if(localStorage.token){
   setAuthToken(localStorage.token)
 }
 const  App = ()=> {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+ 
 
   useEffect(()=>{
-      dispatch(loadUser())
+      dispatch(loadUser());
+
   },[dispatch])
-  
+
   return (
     <>
         {/* Header */}

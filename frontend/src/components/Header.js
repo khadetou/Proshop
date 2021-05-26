@@ -14,6 +14,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const {Item} = NavDropdown;
 
+
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -34,7 +35,7 @@ const Header = () => {
                                 Cart
                                 </Link>
                             </LinkContainer>
-
+                            
                             {user !== null &&  isAuthenticated?
                                 
                                 (<NavDropdown title={user.name.trim().split(' ')[0]}  id='username'>

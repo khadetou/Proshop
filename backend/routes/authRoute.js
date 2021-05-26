@@ -19,7 +19,7 @@ router.get('/profile', authMiddleware, async(req, res)=>{
 
         res.json(user);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         res.status(500).send('Server Error');
     }
 });
@@ -44,7 +44,6 @@ router.post('/', [
     try {
         //CHECK IF THE USER EXIST
          let user = await User.findOne({email});
-         console.log(user)
 
          if(!user){
              res.status(400).json({errors: [{msg: 'Invalid Credentials'}]})
@@ -71,7 +70,7 @@ router.post('/', [
          })
 
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         res.status(500).send('Server error');
     }
 

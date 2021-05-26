@@ -31,7 +31,6 @@ app.get('/', (req, res)=>{
 //ProductRoutes crud
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/users/profile', userRoutes);
 app.use('/api/user', authRoute);
 
 /**MIDDLEWARE */

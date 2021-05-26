@@ -7,6 +7,7 @@ import CartScreen from './Screens/CartScreen';
 import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import ProfileEdit from './Screens/ProfileEdit';
 import PrivateRoute from './routing/PrivateRoute';
 
 const Main = () => {
@@ -17,6 +18,7 @@ const Main = () => {
                <Route exact path='/login' component={LoginScreen}/>
                <Route exact path='/register' component={RegisterScreen}/>
                <PrivateRoute exact path='/profile' component={ProfileScreen}/>
+               <PrivateRoute exact path='/profile-edit' component={ProfileEdit}/>
                <Route exact path='/product/:id' component={ProductScreen}/>
                <Route exact path='/cart/:id?' component={CartScreen}/>
             </Container>

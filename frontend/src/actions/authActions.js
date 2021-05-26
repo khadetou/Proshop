@@ -1,7 +1,7 @@
 import {setAlert} from './alertAction';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import { AUTH_ERROR, LOGIN_SUCCESS, LOG_OUT, REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED } from './type';
+import { AUTH_ERROR, LOGIN_SUCCESS, LOG_OUT, REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED, UPDATED_USER, UPDATE_FAIL } from './type';
 //LOAD USER
 export const loadUser = ()=> async dispatch =>{
 
@@ -24,7 +24,7 @@ export const loadUser = ()=> async dispatch =>{
     }
 }
 
-//REGISTER || Update profile
+//REGISTER
 export const register  = ({name, email, password})=> async dispatch =>{
 
     const config = {
@@ -43,7 +43,6 @@ export const register  = ({name, email, password})=> async dispatch =>{
         })
 
         dispatch(loadUser());
-        dispatch (setAlert('Loged in successfully', 'success'))
     }catch(error){
         const errors = error.response.data.errors;
         if(errors){
@@ -75,6 +74,7 @@ export const register  = ({name, email, password})=> async dispatch =>{
             })
 
             dispatch(loadUser());
+
         }catch(error){
             const errors = error.response.data.errors;
             if(errors){
@@ -83,6 +83,36 @@ export const register  = ({name, email, password})=> async dispatch =>{
     
             dispatch({
                 type: REGISTER_FAIL
+            })
+        }
+    }
+
+    //UPDATE USER PASSWORD
+    export const updateUser  = ({id,name, email, password})=> async dispatch =>{
+
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+    
+        const body = JSON.stringify({id,name, email, password});
+    
+        try{
+            const {data} = await axios.put('/api/users/profile-edit', body, config);
+            dispatch({
+                type: UPDATED_USER,
+                preload: data
+            })
+            dispatch (setAlert('PASSWORD UPDATED  SUCCESSFULLY', 'success'))
+        }catch(error){
+            const errors = error.response.data.errors;
+            if(errors){
+                errors.forEach(error=> dispatch (setAlert(error.msg, 'danger')));
+            }
+    
+            dispatch({
+                type: UPDATE_FAIL
             })
         }
     }
