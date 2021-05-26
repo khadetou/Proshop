@@ -5,7 +5,6 @@ import { FaShoppingCart} from "react-icons/fa";
 import { FaUserAlt} from "react-icons/fa";
 import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../actions/authActions'
-import { Redirect } from 'react-router';
 
 const Header = () => {
     const {Brand, Toggle, Collapse} = Navbar;
