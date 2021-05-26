@@ -11,10 +11,10 @@ export const loadUser = ()=> async dispatch =>{
     }
 
     try{
-        const {data} = await axios.get('/api/user/profile');
+        const res = await axios.get('/api/user/profile');
         dispatch({
             type: USER_LOADED,
-            preload: data
+            preload: res.data
         })
     }catch(err){
        
@@ -24,7 +24,7 @@ export const loadUser = ()=> async dispatch =>{
     }
 }
 
-//REGISTER 
+//REGISTER || Update profile
 export const register  = ({name, email, password})=> async dispatch =>{
 
     const config = {

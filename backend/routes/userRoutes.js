@@ -3,6 +3,7 @@ import {check,validationResult} from 'express-validator';
 import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -13,13 +14,14 @@ const router = express.Router();
 //@route Registering
 //@access public
 router.post('/',[check('name','Name is required').not().isEmpty(),check('email', 'Enter a valid email').isEmail(), check('password', 'Enter a password with 6 or more characters').isLength({min: 6})], async (req, res)=>{
+
     const errors = validationResult(req);
-   console.log(errors)
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
     const {name, email, password, isAdmin} = req.body;
     
+
     try {
         let user = await User.findOne({ email })
 
@@ -37,6 +39,7 @@ router.post('/',[check('name','Name is required').not().isEmpty(),check('email',
     //Encrypt Password
     const salt = await bcryptjs.genSalt(10);
     user.password = await bcryptjs.hash(password, salt);
+
     await user.save();
 
     //Return jsonwebtoken
@@ -55,5 +58,49 @@ router.post('/',[check('name','Name is required').not().isEmpty(),check('email',
         res.status(500).send('Server error');
     }
 });
+
+
+
+//@desc Update User credentials most of all his password
+//@route Put api/users/profile
+//@access Private
+router.put('/',[authMiddleware, check('name', 'Name is required').not().isEmpty(),
+                check('email','Enter a valid email').isEmail(),
+            check('password', 'Enter a password with 6 or more characters').isLength({min: 6})], async(req, res)=>{
+
+                const errors = validationResult(req);
+                if(!errors.isEmpty()){
+                    return res.status(400).json({errors: errors.array()});
+                }
+
+                const {name, email, password} = req.body;
+
+                try{
+                    const user = await User.findById(req.user.id)
+                    if(user){
+                        user.name = name || user.name;
+                        user.email = email || user.email
+                    }
+                    if(password){
+                        //Encrypt Password
+                        const salt = await bcryptjs.genSalt(10);
+                        user.password = await bcryptjs.hash(password, salt)
+                    }
+                    const updatedUser = await user.save()
+
+                    res.json({
+                        _id: updatedUser._id,
+                        name: updatedUser.name,
+                        email: updatedUser.email,
+                        password: updatedUser.password,
+                        isAdmin: updatedUser.isAdmin
+                    })
+
+                }catch(error){
+                    console.error(error.message);
+                    res.status(500).send('Server error');
+                }
+            })
+
 
 export default router;

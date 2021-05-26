@@ -7,6 +7,7 @@ import {loadUser} from './actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 
 
+
 if(localStorage.token){
   setAuthToken(localStorage.token)
 }

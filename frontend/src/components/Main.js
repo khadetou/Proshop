@@ -6,6 +6,9 @@ import {Route} from 'react-router-dom';
 import CartScreen from './Screens/CartScreen';
 import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
+import ProfileScreen from './Screens/ProfileScreen';
+import PrivateRoute from './routing/PrivateRoute';
+
 const Main = () => {
     return (
         <main className="py-3">
@@ -13,6 +16,7 @@ const Main = () => {
                <Route exact path='/' component={HomeScreen}/>
                <Route exact path='/login' component={LoginScreen}/>
                <Route exact path='/register' component={RegisterScreen}/>
+               <PrivateRoute exact path='/profile' component={ProfileScreen}/>
                <Route exact path='/product/:id' component={ProductScreen}/>
                <Route exact path='/cart/:id?' component={CartScreen}/>
             </Container>

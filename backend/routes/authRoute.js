@@ -25,6 +25,7 @@ router.get('/profile', authMiddleware, async(req, res)=>{
 });
 
 
+
 //@route   Post /api/user
 //@desc    Login as user
 //@access  Public
@@ -43,6 +44,7 @@ router.post('/', [
     try {
         //CHECK IF THE USER EXIST
          let user = await User.findOne({email});
+         console.log(user)
 
          if(!user){
              res.status(400).json({errors: [{msg: 'Invalid Credentials'}]})
