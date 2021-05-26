@@ -1,24 +1,35 @@
-import React, {useState} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import {Form, Col, Row, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import Message from '../Message';
 import {login} from '../../actions/authActions';
 import FormContainer from '../FormContainer';
 
-const LoginScreen = () => {
+const LoginScreen = ({history}) => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     })
 
-    const {isAuthenticated} = useSelector(state=>state.auth);
+    const {user} = useSelector(state=>state.auth);
     const alert = useSelector (state=> state.alert);
     const {email, password} = formData;
     const {Group,Control, Label} =Form;
 
     const onChange = (e)=>setFormData({...formData, [e.target.name]: e.target.value});
+   
+    const {location} = history;
+    let redirect = location.search ? location.search.split('=')[1]: '/';
+    
+
+    useEffect(()=>{
+        if(user){
+            history.push(redirect);
+        }
+    },[history, redirect, user])
+
 
     const onSubmit = (e) =>{
         e.preventDefault();
@@ -29,9 +40,6 @@ const LoginScreen = () => {
        <Message key={idx} variant={ale.alertType}>{ale.msg}</Message>
    ));
 
-   if(isAuthenticated){
-       return <Redirect to='/'/>
-   }
 
     return (
         <FormContainer>
@@ -66,7 +74,7 @@ const LoginScreen = () => {
                 <Row className='py-3'>
                     <Col>
                         New Customer?{' '}
-                        <Link to='/register'>Register</Link>
+                        <Link to={redirect? `/register?redirect=${redirect}`:'/register'}>Register</Link>
                     </Col>
                 </Row>
             </Form>
