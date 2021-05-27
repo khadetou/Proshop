@@ -5,7 +5,6 @@ import asyncHandler from 'express-async-handler';
 //@desc FETCH ALL PRODUCTS 
 //@route Get/api/products
 //@access public
-
 //Get All products 
 const getAllProducts = asyncHandler(async (req, res)=>{
 
@@ -13,6 +12,7 @@ const getAllProducts = asyncHandler(async (req, res)=>{
     res.json(products);
 
 });
+
 
 
 //@desc FETCH ONE SINGLE PRODUCT
@@ -31,5 +31,6 @@ const getProductById = asyncHandler( async(req, res)=>{
         throw new Error('Product not found');
     }
 });
+
 
 export {getAllProducts, getProductById} ;
