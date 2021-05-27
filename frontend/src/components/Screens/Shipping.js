@@ -7,8 +7,8 @@ import CheckoutSteps from '../CheckoutSteps';
 
 const Shipping = ({history}) => {
 
-    const {shippingAddress} = useSelector(state=>state.cart);
-    console.log(shippingAddress)
+    const {shippingAddress} = useSelector(state=>state.cart)
+
     const [address, setAddress]= useState(shippingAddress.address);
     const [city, setCity]= useState(shippingAddress.city);
     const [postalCode, setPostalCode]= useState(shippingAddress.postalCode);
@@ -28,7 +28,7 @@ const Shipping = ({history}) => {
             postalCode,
             country
         }
-        console.log(data);
+
 
         dispatch(saveShippingAddress(data))
         history.push('/payment')

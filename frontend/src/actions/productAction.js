@@ -74,6 +74,8 @@ export const saveShippingAddress = (data)=> async dispatch =>{
         type: CART_SAVE_SHIPPING_ADDRESS,
         preload: data
     })
+    //Allow us to save it in our local storage event if we reload the page it stays there
+    localStorage.setItem('shippingAddress', JSON.stringify(data))
 }
 //SAVE PAYMENT CART LOCCALLY
 export const savePaymentMethod = (data)=> async dispatch =>{
@@ -81,6 +83,8 @@ export const savePaymentMethod = (data)=> async dispatch =>{
         type: CART_SAVE_PAYMENT_METHOD,
         preload: data
     })
+      //Allow us to save it in our local storage event if we reload the page it stays there
+      localStorage.setItem('paymentMethod', JSON.stringify(data))
 }
 
 //DELETE TO CART
