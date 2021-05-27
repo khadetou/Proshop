@@ -1,21 +1,43 @@
 import React from 'react';
 import {Button, Row, Col, ListGroup, Card, Image} from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Message from '../Message';
 import CheckoutSteps from '../CheckoutSteps';
+import {createOrder} from '../../actions/productAction';
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({history}) => {
+
+
     const cart = useSelector(state=>state.cart);
+    const {success, order}= useSelector(state => state.orders)
     const {shippingAddress:{address, city, postalCode, country}, paymentMethod, cartItems}= cart;
     const {Item} = ListGroup;
+    const dispatch = useDispatch()
+ 
+
     const submit = ()=>{
-        console.log('order');
+        const order ={
+            orderItems: cartItems,
+            shippingAddress: cart.shippingAddress, 
+            paymentMethod: paymentMethod, 
+            itemsPrice: cart.itemsPrice, 
+            taxPrice: cart.taxPrice, 
+            shippingPrice: cart.shippingPrice, 
+            totalPrice: cart.totalPrice
+        }
+
+        dispatch(createOrder(order));
     }
 
     //Calculate the item prices
     const addDecimal=(num)=>{
         return (Math.round(num * 100)/100).toFixed(2)
+    }
+
+
+    if(success){
+        history.push(`/order/${order._id}`)
     }
 
     cart.itemsPrice = addDecimal(cartItems.reduce((acc, item)=> acc +item.price * item.qty, 0));
@@ -30,18 +52,18 @@ const PlaceOrderScreen = () => {
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
-                       <Item>
+                    <Item>
                         <h2>Shipping</h2>
                             <p>
                                 <strong>Address: </strong>
                                 {address}, {city}, {postalCode}, {country}
                             </p>
-                       </Item>
-                       <Item>
+                    </Item>
+                    <Item>
                             <h2>Payment Method</h2>
                             <strong>Method: </strong>
                             {paymentMethod}
-                       </Item>
+                    </Item>
                     </ListGroup>
                     <ListGroup>
                         <h2>Order Items</h2>

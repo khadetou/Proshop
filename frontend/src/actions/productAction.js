@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -95,6 +95,33 @@ export const removeToCart = (id) => async (dispatch, getState) =>{
        preload: id
    })
    localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
+}
+
+//CREATE ORDER
+export const createOrder  = (order)=> async dispatch =>{
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify(order);
+
+
+    try{
+        const {data} = await axios.post('/api/order', body, config);
+
+        dispatch({
+            type: ORDER_CREATE_SUCCESS,
+            preload: data
+        })
+
+    }catch(error){
+        dispatch({
+            type: ORDER_CREATE_FAIL,
+            preload: error
+        })
+    }
 }
 
 //SET LOADING TRUE  

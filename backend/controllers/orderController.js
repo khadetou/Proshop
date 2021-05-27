@@ -1,4 +1,4 @@
-import Product from '../models/productModel.js';
+import Order from '../models/orderModel.js';
 import asyncHandler from 'express-async-handler';
 
 
@@ -6,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 //@route Post/api/orders
 //@access private
 //Get All products 
-const addOrderItems = asyncHandler(async (req, res)=>{
+export const addOrderItems = asyncHandler(async (req, res)=>{
 
     const {
         orderItems, 
@@ -17,15 +17,16 @@ const addOrderItems = asyncHandler(async (req, res)=>{
         shippingPrice, 
         totalPrice
     } = req.body;
-    
+
     if(orderItems && orderItems ===0){
         res.send(400)
         throw new Error('No order items')
         return
     }else{
+
         const order = new Order({
             orderItems, 
-            user: req.user._id,
+            user: req.user.id,
             shippingAddress, 
             paymentMethod, 
             itemsPrice, 
