@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, PAID_RESET} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -140,7 +140,7 @@ export const getOrderItems = (id) => async (dispatch)=>{
             type: ORDER_ITEMS_SUCCESS,
             preload: data
         })
-        
+        dispatch({type:PAID_RESET})
     } catch (error) {
         dispatch({
             type: ORDER_ITEMS_FAIL,
@@ -150,6 +150,33 @@ export const getOrderItems = (id) => async (dispatch)=>{
 
 } 
 
+
+//UPDATE INTO PAID
+export const updatePaid = (id, paymenteResult)=> async dispatch=>{
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify(paymenteResult);
+    
+    try {
+        
+        const {data}= await axios.put(`/api/order/${id}/paid`,body, config);
+
+        dispatch({
+            type: PAID_SUCCESS,
+            preload: data
+        })
+    dispatch({type:PAID_RESET})
+    } catch (error) {
+        dispatch({
+            type: PAID_FAIL,
+            preload: error
+        })
+    }
+}
 
 
 //SET LOADING TRUE  
