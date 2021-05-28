@@ -36,6 +36,9 @@ export const PAID_FAIL = 'PAID_FAIL';
 export const PAID_RESET = 'PAID_RESET';
 
 
+export const GET_ORDERLIST_SUCCESS = 'GET_ORDERLIST_SUCCESS';
+export const GET_ORDERLIST_FAIL = 'GET_ORDERLIST_FAIL';
+
 
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';

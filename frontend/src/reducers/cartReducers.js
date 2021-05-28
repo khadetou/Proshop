@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from '../actions/type';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS, LOG_OUT } from '../actions/type';
 
 const cartsItemsFromStorage = localStorage.getItem('cartItems')? 
 JSON.parse(localStorage.getItem('cartItems')): 
@@ -48,10 +48,15 @@ export default (state = initialState, action)=>{
         case CART_SAVE_PAYMENT_METHOD:
             return{
                 ...state,
-               paymentMethod: preload
+                paymentMethod: preload
             }
 
-
+        case LOG_OUT:
+            return{
+                ...state,
+                cartItems: [],
+                shippingAddress: {}
+            }
         default: 
             return state;
     }

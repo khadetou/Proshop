@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from 'react';
 import {Form,  Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import Message from '../Message';
 import {updateUser} from '../../actions/authActions';
 import FormContainer from '../FormContainer';
@@ -104,6 +105,10 @@ const ProfileEdit = () => {
                  </Group>
 
                  <Button type='submit' variant='primary' className='my-2'>UPDATE</Button>
+                 
+                 <Link to='/profile' className='btn btn-warning m-5'>
+                    Back 
+                 </Link>
             </Form> 
         </Fragment>}
        </FormContainer>

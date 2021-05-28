@@ -6,6 +6,7 @@ import alertReducer from './alertReducer';
 import authReducer from './authReducer';
 import orderReducer from './orderReducer';
 import paymentOrder from './paymentOrder';
+import myorderReducers from './myorderReducers';
 
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
     alert: alertReducer,
     auth: authReducer,
     orders: orderReducer,
-    payment: paymentOrder
+    payment: paymentOrder,
+    myorders: myorderReducers
 })

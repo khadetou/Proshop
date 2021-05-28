@@ -119,6 +119,7 @@ export const register  = ({name, email, password})=> async dispatch =>{
 
     //LOG OUT 
     export const logout = ()=> dispatch =>{
+       localStorage.clear()
         dispatch({
             type: LOG_OUT
         })
