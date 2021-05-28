@@ -11,6 +11,7 @@ import ProfileEdit from './Screens/ProfileEdit';
 import Shipping from './Screens/Shipping';
 import PaymentScreen from './Screens/PaymentScreen';
 import PlaceOrderScreen from './Screens/PlaceOrderScreen';
+import OrderScreen from './Screens/OrderScreen';
 import PrivateRoute from './routing/PrivateRoute';
 
 const Main = () => {
@@ -25,6 +26,7 @@ const Main = () => {
                <PrivateRoute exact path='/shipping' component={Shipping}/>
                <PrivateRoute exact path='/payment' component={PaymentScreen}/>
                <PrivateRoute exact path='/placeorder' component={PlaceOrderScreen}/>
+               <PrivateRoute exact path='/order/:id' component={OrderScreen}/>
                <Route exact path='/product/:id' component={ProductScreen}/>
                <Route exact path='/cart/:id?' component={CartScreen}/>
             </Container>

@@ -6,6 +6,7 @@ import alertReducer from './alertReducer';
 import authReducer from './authReducer';
 import orderReducer from './orderReducer';
 
+
 export default combineReducers({
     product: productReducers,
     productDetail: productDetailReducers,

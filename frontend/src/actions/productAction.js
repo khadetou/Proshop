@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -110,7 +110,7 @@ export const createOrder  = (order)=> async dispatch =>{
 
     try{
         const {data} = await axios.post('/api/order', body, config);
-
+        
         dispatch({
             type: ORDER_CREATE_SUCCESS,
             preload: data
@@ -123,6 +123,34 @@ export const createOrder  = (order)=> async dispatch =>{
         })
     }
 }
+
+
+//GET ORDER ITEMS BY ID
+export const getOrderItems = (id) => async (dispatch)=>{
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+
+    try {
+
+        const {data} = await axios.get(`/api/order/${id}`, config)
+        dispatch({
+            type: ORDER_ITEMS_SUCCESS,
+            preload: data
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: ORDER_ITEMS_FAIL,
+            error: error
+        })
+    }
+
+} 
+
+
 
 //SET LOADING TRUE  
 export const setProductLoading = ()=>{
