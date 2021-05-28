@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import Message from '../Message';
 import Loader from '../Loader';
 import {getOrderItems, updatePaid} from '../../actions/productAction';
+import {PAID_RESET} from '../../actions/type';
 import axios from 'axios';
 
 const OrderScreen = ({match}) => {
@@ -18,7 +19,6 @@ const OrderScreen = ({match}) => {
     const payment = useSelector(state=>state.payment);
     const {success:paymentSucceeded, loading:paymentLoading}= payment;
 
-
     const {Item} = ListGroup;
 
     const orders= useSelector(state => state.orders)
@@ -27,6 +27,7 @@ const OrderScreen = ({match}) => {
     useEffect(()=>{
         const addPayPalScript = async ()=>{
             const {data:clientId}= await axios.get('/api/config/paypal');
+
             const script = document.createElement('script');
 
             script.type = 'text/javascript';
@@ -36,18 +37,19 @@ const OrderScreen = ({match}) => {
             script.onload =()=>{
                 setSdk(true);
             }
+            
+            
             document.body.appendChild(script);
         }
 
-        
-
         if(paymentSucceeded || !orderd){
+            dispatch({type:PAID_RESET})
             dispatch(getOrderItems(orderId))
         }else if(!orderd.isPaid){
             if(!window.paypal){
                 addPayPalScript();
             }else{
-                setSdk(true)
+                setSdk(true);
             }
         }
 

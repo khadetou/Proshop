@@ -140,7 +140,7 @@ export const getOrderItems = (id) => async (dispatch)=>{
             type: ORDER_ITEMS_SUCCESS,
             preload: data
         })
-        dispatch({type:PAID_RESET})
+       
     } catch (error) {
         dispatch({
             type: ORDER_ITEMS_FAIL,
@@ -169,7 +169,7 @@ export const updatePaid = (id, paymenteResult)=> async dispatch=>{
             type: PAID_SUCCESS,
             preload: data
         })
-    dispatch({type:PAID_RESET})
+ 
     } catch (error) {
         dispatch({
             type: PAID_FAIL,
