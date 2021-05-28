@@ -11,7 +11,7 @@ import orderRoute from './routes/orderRoute.js';
 //INITIALISING DOTENV AND EXPRESS
 dotenv.config();
 const app = express();
-const {PORT, NODE_ENV} = process.env;
+const {PORT, NODE_ENV, PAYPAL_CLIENT_ID} = process.env;
 
 //connection to the database.
 connectDB();
@@ -27,6 +27,11 @@ app.use(express.json({extended:false}));
 app.get('/', (req, res)=>{
     res.send('Api is running');
 });
+
+
+//GET PAYPAL API ID     
+app.get('/api/config/paypal',(req, res)=> res.send(PAYPAL_CLIENT_ID))
+
 
 
 //ProductRoutes crud
