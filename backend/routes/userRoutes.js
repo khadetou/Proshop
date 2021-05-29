@@ -4,7 +4,7 @@ import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import authMiddleware, {isAdmin} from '../middleware/authMiddleware.js';
-import {getAllusers,deletUser} from '../controllers/userController.js';
+import {getAllusers,getuserById, updateUser, deleteUser} from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -108,7 +108,10 @@ router.put('/profile-edit',[authMiddleware,
             })
 
 
-router.route('/:id').delete(authMiddleware, isAdmin, deletUser);
+router.route('/:id')
+.delete(authMiddleware, isAdmin, deleteUser)
+.get(authMiddleware, isAdmin, getuserById)
+.put(authMiddleware, isAdmin, updateUser);
 
 
 export default router;
