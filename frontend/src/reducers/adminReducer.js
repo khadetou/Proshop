@@ -1,7 +1,8 @@
-import { DELETE_USER_FAIL, DELETE_USER_SUCCESS, USER_LIST_FAIL, USER_LIST_SUCCESS } from '../actions/type';
+import { DELETE_USER_FAIL, DELETE_USER_SUCCESS, LOG_OUT, UPDATE_USER_BYID_FAIL, UPDATE_USER_BYID_SUCCESS, USER_BYID_FAIL, USER_BYID_SUCCESS, USER_LIST_FAIL, USER_LIST_SUCCESS } from '../actions/type';
 
 const initialState = {
     users: null,
+    user: null,
     loading: true,
     error: null
 }
@@ -24,6 +25,18 @@ export default (state= initialState, action)=>{
                 users: state.users.filter(user=>user._id !== preload),
                 loading: false
             }
+        case USER_BYID_SUCCESS:
+        case UPDATE_USER_BYID_SUCCESS:
+            return{
+                ...state,
+                loading: false,
+                user: preload
+            }
+
+        
+
+        case UPDATE_USER_BYID_FAIL:
+        case USER_BYID_FAIL:
         case DELETE_USER_FAIL:
         case USER_LIST_FAIL:
             return{
@@ -32,6 +45,13 @@ export default (state= initialState, action)=>{
                 error: preload
             }
         
+        case LOG_OUT:
+            return{
+                ...state,
+                users: [],
+                user: {},
+                loading: false
+            }
         default:
             return state;
     }

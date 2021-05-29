@@ -9,9 +9,13 @@ import {getUsers, deletUser} from '../../actions/adminAction';
 const UserListScreen = ({history}) => {
     const dispatch = useDispatch();
     const {users, loading, error} = useSelector(state=>state.admin)
-    const {user:authUser}= useSelector(state=>state.auth);
+    // const {user:authUser}= useSelector(state=>state.auth);
     useEffect(()=>{
+
+    
         dispatch(getUsers())
+    
+
     },[dispatch])
 
     const deleteHandler=(id)=>{
@@ -20,13 +24,12 @@ const UserListScreen = ({history}) => {
         }
     }
 
-    if(authUser && !authUser.isAdmin){
-        history.push('/');
-    }
-
-    if(!authUser){
-        history.push('/login')
-    }
+    // if(!authUser.isAdmin){
+    //     history.push('/');
+    // }
+    // if(!authUser){
+    //     history.push('/login')
+    // }
 
     return (
         <>
@@ -44,7 +47,7 @@ const UserListScreen = ({history}) => {
                       </tr>
                     </thead>
                     <tbody>
-                        {users.map((user,idx)=>(
+                        {users !==null && users.map((user,idx)=>(
                             <tr key={idx}>
                                 <td>{user._id}</td>
                                 <td>{user.name}</td>
@@ -52,7 +55,7 @@ const UserListScreen = ({history}) => {
 
                                 <td>{user.isAdmin? (<i className='fas fa-check' style={{color:'green'}}></i>):(<i className='fas fa-times' style={{color:'red'}}></i>)}</td>
                                 <td>
-                                    <LinkContainer to={`/user/${user._id}/edit`}>
+                                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                         <Button variant='light' className='btn-sm'>
                                             <i className='fas fa-edit'></i>
                                         </Button>
