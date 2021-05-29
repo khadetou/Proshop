@@ -7,15 +7,21 @@ import {getMyOrders} from '../../actions/productAction';
 import Loader from '../Loader';
 import Message from '../Message';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({history}) => {
     const dispatch = useDispatch();
     const {orders:myOrders, loading:myOrderloading, error:myOrderError} = useSelector(state=>state.myorders);
+    const {user} = useSelector(state=>state.auth);
 
 
 
     useEffect(()=>{
-        dispatch(getMyOrders())
-    },[dispatch])
+        if(user){
+            dispatch(getMyOrders())
+        }else{
+            history.push('/login')
+        }
+        
+    },[dispatch, user, history])
 
     return (
         <Row>

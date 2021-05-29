@@ -7,7 +7,7 @@ import authReducer from './authReducer';
 import orderReducer from './orderReducer';
 import paymentOrder from './paymentOrder';
 import myorderReducers from './myorderReducers';
-
+import adminReducer from './adminReducer';
 
 export default combineReducers({
     product: productReducers,
@@ -17,5 +17,6 @@ export default combineReducers({
     auth: authReducer,
     orders: orderReducer,
     payment: paymentOrder,
-    myorders: myorderReducers
+    myorders: myorderReducers,
+    admin: adminReducer
 })

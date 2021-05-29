@@ -46,3 +46,9 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const UPDATED_USER = 'UPDATE_USER';
 export const UPDATE_FAIL = 'UPDATE_FAIL';
 
+export const USER_LIST_SUCCESS = 'USER_LIST_SUCCESS';
+export const USER_LIST_FAIL = 'USER_LIST_FAIL';
+
+
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const DELETE_USER_FAIL = 'DELETE_USER_FAIL';

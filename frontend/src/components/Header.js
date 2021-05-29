@@ -37,7 +37,7 @@ const Header = () => {
                             
                             {user !== null &&  isAuthenticated?
                                 
-                                (<NavDropdown title={user.name.trim().split(' ')[0]}  id='username'>
+                                (<NavDropdown title={user.isAdmin?user.name : user.name.trim().split(' ')[0]}  id='username' className='m-0'>
                                 <LinkContainer to='/profile'>
                                 <Item>Profile</Item>
                                 </LinkContainer>
@@ -49,7 +49,8 @@ const Header = () => {
                                 </NavDropdown>)
                             :
 
-                            (<LinkContainer to='/login'>
+                            (
+                            <LinkContainer to='/login'>
                             <Link className="d-flex justify-content-center align-items-center">
                             <FaUserAlt className="me-1"/>
                                 Sign in
@@ -58,7 +59,19 @@ const Header = () => {
                             
                         }
 
-                          
+                        {user && user.isAdmin &&
+                            <NavDropdown title='Admin'  id='adminMenu'>
+                                <LinkContainer to='/admin/userlist'>
+                                    <Item>Users</Item>
+                                </LinkContainer>
+                                <LinkContainer to='/admin/productlist'>
+                                    <Item>Products</Item>
+                                </LinkContainer>
+                                <LinkContainer to='/admin/orderlist'>
+                                    <Item>Orders</Item>
+                                </LinkContainer>
+                            </NavDropdown>
+                        }
                         </Nav>
                     </Collapse>
                 </Container>

@@ -65,7 +65,7 @@ export const addCart = (id, qty)=> async (dispatch, getState)=>{
             qty
         }
     })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
 //SAVE SHIPPING CART ADDRESS LOCCALLY
@@ -89,7 +89,7 @@ export const savePaymentMethod = (data)=> async dispatch =>{
 
 //DELETE TO CART
 export const removeToCart = (id) => async (dispatch, getState) =>{
-   
+
    dispatch({
        type: CART_REMOVE_ITEM,
        preload: id
@@ -203,6 +203,7 @@ export const getMyOrders = () => async (dispatch)=>{
     }
 
 } 
+
 
 //SET LOADING TRUE  
 export const setProductLoading = ()=>{
