@@ -3,7 +3,8 @@ import {check,validationResult} from 'express-validator';
 import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
-import authMiddleware from '../middleware/authMiddleware.js';
+import authMiddleware, {isAdmin} from '../middleware/authMiddleware.js';
+import {getAllusers} from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -61,6 +62,11 @@ router.post('/',[check('name','Name is required').not().isEmpty(),check('email',
 
 
 
+
+//GET ALL USERS AS THE ADMIN
+router.route('/').get(authMiddleware,isAdmin, getAllusers);
+
+
 //@desc Update User credentials most of all his password
 //@route Put api/users/profile
 //@access Private
@@ -100,6 +106,9 @@ router.put('/profile-edit',[authMiddleware,
                     res.status(500).send('Server error');
                 }
             })
+
+
+
 
 
 export default router;

@@ -1,5 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
-
+import User from '../models/userModel.js';
+import asyncHandler from 'express-async-handler';
 export default(req, res, next)=>{
     //GET TOKEN FROM HEADER
     const token = req.header('x-auth-token');
@@ -18,3 +19,14 @@ export default(req, res, next)=>{
         res.status(401).json({msg: 'Token is not valid'});
     }
 }
+
+export const isAdmin = asyncHandler( async(req, res, next)=>{
+    const user = await User.findById(req.user.id).select('-password');
+    
+    if(user && user.isAdmin){
+        next();
+    }else{
+        res.status(401);
+        throw new Error('Not authorized as an Admin')
+    }
+})
