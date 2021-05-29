@@ -24,12 +24,6 @@ const UserListScreen = ({history}) => {
         }
     }
 
-    // if(!authUser.isAdmin){
-    //     history.push('/');
-    // }
-    // if(!authUser){
-    //     history.push('/login')
-    // }
 
     return (
         <>

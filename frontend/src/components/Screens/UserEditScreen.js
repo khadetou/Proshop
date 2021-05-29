@@ -1,8 +1,8 @@
 import React,{useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserById, updateUser} from '../../actions/adminAction';
-import {Link, Redirect} from 'react-router-dom';
-import {Form, Col, Row, Button} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import {Form, Button} from 'react-bootstrap';
 import FormContainer from '../FormContainer';
 import Loader from '../Loader';
 import Message from '../Message';
