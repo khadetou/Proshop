@@ -23,7 +23,7 @@ const ListProductScreen = ({history}) => {
 
     
     const createHandeler = ()=>{
-        console.log('create')
+        history.push('/admin/createproduct')
     }
     return (
         <>

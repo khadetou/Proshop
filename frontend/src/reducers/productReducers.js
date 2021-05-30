@@ -1,4 +1,4 @@
-import {PRODUCT_DELETE_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS} from '../actions/type';
+import {PRODUCT_DELETE_FAIL, PRODUCT_DELETE_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS} from '../actions/type';
 const initialState ={
     products: null,
     error: null,
@@ -21,7 +21,7 @@ export default (state = initialState, action) =>{
                 products: preload,
                 loading: false
             }
-        case PRODUCT_DETAILS_SUCCESS:
+        case PRODUCT_DELETE_SUCCESS:
             return{
                 ...state,
                 products: state.products.filter(product=>product._id!==preload),

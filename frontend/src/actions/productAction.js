@@ -1,6 +1,6 @@
 import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS} from './type';
 import axios from 'axios';
-
+import {setAlert} from './alertAction';
 //GET PRODUCTS
 export const getProducts = () => async (dispatch)=>{
 
@@ -71,6 +71,31 @@ export const deleteProduct = (id)=> async dispatch=>{
     }
 }
 
+//CREATE / UPDATE PRODUCT
+export const createProduct = (formData, history, edit=false)=>async dispatch=>{
+    try{
+        const config= {
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }
+
+        const {data} = await axios.post('/api/products',formData, config);
+        dispatch({
+            type: PRODUCT_DETAILS_SUCCESS,
+            preload: data
+        })
+        dispatch(setAlert(edit?'PRODUCT UPDATED':'PRODUCT CREATED', 'success'));
+        if(!edit){
+            history.push('/admin/productlist');
+        }
+    }catch(error){
+        dispatch({
+            type: PRODUCT_DETAILS_FAIL,
+            preload:error.response.data.message
+        })
+    }
+}
 
 //Add TO CART
 export const addCart = (id, qty)=> async (dispatch, getState)=>{
