@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
@@ -7,7 +8,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoute from  './routes/authRoute.js';
 import orderRoute from './routes/orderRoute.js';
-
+import uploadRoutes from './routes/uploadRoutes.js';
 //INITIALISING DOTENV AND EXPRESS
 dotenv.config();
 const app = express();
@@ -39,6 +40,12 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/user', authRoute);
 app.use('/api/order', orderRoute);
+app.use('/api/upload', uploadRoutes);
+
+
+//MAKE THE SERVER FILE STATIC
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 /**MIDDLEWARE */
 
