@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS} from '../actions/type';
+import {PRODUCT_DELETE_FAIL, PRODUCT_DETAILS_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS} from '../actions/type';
 const initialState ={
     products: null,
     error: null,
@@ -7,7 +7,7 @@ const initialState ={
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) =>{
-    const {type, preload, error} = action;
+    const {type, preload} = action;
     switch(type){
         case PRODUCT_LIST_RESQUEST:
             return{
@@ -21,10 +21,17 @@ export default (state = initialState, action) =>{
                 products: preload,
                 loading: false
             }
-        case PRODUCT_LIST_FAIL:
+        case PRODUCT_DETAILS_SUCCESS:
             return{
                 ...state,
-                error: error
+                products: state.products.filter(product=>product._id!==preload),
+                loading:false
+            }
+        case PRODUCT_LIST_FAIL:
+        case PRODUCT_DELETE_FAIL:
+            return{
+                ...state,
+                error: preload
             }
         default:
             return state

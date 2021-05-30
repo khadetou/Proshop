@@ -4,22 +4,21 @@ import {Table, Button,Row, Col} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import Message from '../Message';
 import Loader from '../Loader';
-import {getProducts} from '../../actions/productAction';
+import {getProducts, deleteProduct} from '../../actions/productAction';
 
 const ListProductScreen = ({history}) => {
     const dispatch = useDispatch();
-    const {products, loading, error} = useSelector(state=>state.product)
-    
+    const {products,successdelete, loading, error} = useSelector(state=>state.product);
     useEffect(()=>{
 
-    
         dispatch(getProducts())
-    
 
-    },[dispatch])
+    },[dispatch,successdelete])
 
-    const deleteHandler = ()=>{
-        console.log('delete me')
+    const deleteHandler = (id)=>{
+       if(window.confirm('Are you sure? There will be no going back!')){
+        dispatch(deleteProduct(id))
+       }
     }
 
     

@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS} from './type';
 import axios from 'axios';
 
 //GET PRODUCTS
@@ -42,11 +42,34 @@ export const getProductDetails = (id) => async (dispatch)=>{
     } catch (error) {
         dispatch({
             type:PRODUCT_DETAILS_FAIL,
-            error: error.response.data.message
+            preload: error.response.data.message
         })
     }
 
 } 
+
+
+
+//DELETE PRODUCTS
+export const deleteProduct = (id)=> async dispatch=>{
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try {
+        await axios.delete(`/api/products/${id}`,config);
+        dispatch({
+            type:PRODUCT_DELETE_SUCCESS,
+            preload: id
+        })
+    } catch (error) {
+        dispatch({
+            type:PRODUCT_DETAILS_FAIL,
+            preload: error.response.data.message
+        })
+    }
+}
 
 
 //Add TO CART
