@@ -1,14 +1,14 @@
 import {PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_RESQUEST, PRODUCT_DETAILS_SUCCESS} from '../actions/type';
 
 const initialState ={
-    productsD: {reviews:[]},
+    productsD: null,
     loading: null,
     error: null
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action)=>{
-    const {payload, type, error} = action;
+    const {preload, type, error} = action;
 
     switch(type){
         case PRODUCT_DETAILS_RESQUEST:
@@ -19,7 +19,8 @@ export default (state = initialState, action)=>{
             case PRODUCT_DETAILS_SUCCESS:
                 return{
                     ...state,
-                    productsD: payload,
+                    productsD: preload,
+                    reviews:[],
                     loading: false
                 }
             case PRODUCT_DETAILS_FAIL:

@@ -1,13 +1,13 @@
-import React,{ useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {createProduct} from '../../actions/productAction';
+import {createProduct, getProductDetails} from '../../actions/productAction';
 import {Link} from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import FormContainer from '../FormContainer';
 import Loader from '../Loader';
 import Message from '../Message';
 
-const CreateProductScreen = ({history}) => {
+const EditProductScreen = ({history, match}) => {
     const dispatch = useDispatch();
     
     const [formData, setFormData] = useState({
@@ -23,26 +23,42 @@ const CreateProductScreen = ({history}) => {
     })
 
 
-    
+    const productId  = match.params.id;
     const {Group,Control, Label} =Form;
 
     const {name, image, brand, category, description, price, countInStock}=formData;
 
 
     const alert = useSelector(state=> state.alert);
-    const {loading, error}= useSelector(state=>state.productDetail);
+    const {loading, error, productsD}= useSelector(state=>state.productDetail);
 
-
+    useEffect(()=>{
+        if(productsD === null || productsD._id !== productId){
+            dispatch(getProductDetails(productId))
+        }else{
+            setFormData({
+                name:   productsD.name,
+                image: productsD.image,
+                brand:  productsD.brand,
+                category: productsD.category,
+                description: productsD.description,
+                price: productsD.price,
+                countInStock: productsD.countInStock,
+            })
+        
+        }
+        
+    },[productId, dispatch, productsD, loading])
     const onChange = (e)=>{
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        dispatch(createProduct(formData, history));
+        dispatch(createProduct(formData, history, true));
     }
 
-    
+  
 
     const alerts = alert.map((alert,idx)=>(
         <Message key={idx} variant={`${alert.alertType}`}>{alert.msg}</Message>
@@ -50,11 +66,8 @@ const CreateProductScreen = ({history}) => {
 
     return (
         <>
-          <Link to='/admin/userlist' className='btn btn-ligth my-3'>
-            Go Back
-          </Link>
           <FormContainer>
-            <h1>CREATE PRODUCTS</h1>
+            <h1>UPDATE PRODUCTS </h1>
             {alerts}
             {loading? <Loader/> : error ? <Message variant='danger'>{error}</Message>:(
                 <Form onSubmit={(e)=>onSubmit(e)}>
@@ -88,7 +101,7 @@ const CreateProductScreen = ({history}) => {
                         type='text' 
                         name= 'brand'
                         placeholder='Put the brand of the product'
-                        checked={brand}
+                        value={brand}
                         onChange={(e)=>onChange(e)}>
                         </Control>
                     </Group>
@@ -101,7 +114,7 @@ const CreateProductScreen = ({history}) => {
                         step='.01' 
                         name= 'price'
                         placeholder='Put the price of the product'
-                        checked={price}
+                        value={price}
                         onChange={(e)=>onChange(e)}>
                         </Control>
                     </Group>
@@ -113,7 +126,7 @@ const CreateProductScreen = ({history}) => {
                         min='0'
                         name= 'countInStock'
                         placeholder='Put the count In Stock of the product'
-                        checked={countInStock}
+                        value={countInStock}
                         onChange={(e)=>onChange(e)}>
                         </Control>
                     </Group>
@@ -124,7 +137,7 @@ const CreateProductScreen = ({history}) => {
                         type='text' 
                         name= 'category'
                         placeholder='Put the category of the product'
-                        checked={category}
+                        value={category}
                         onChange={(e)=>onChange(e)}>
                         </Control>
                     </Group>
@@ -135,7 +148,7 @@ const CreateProductScreen = ({history}) => {
                         type='text' 
                         name= 'description'
                         placeholder='Put the description of the product'
-                        checked={description}
+                        value={description}
                         onChange={(e)=>onChange(e)}>
                         </Control>
                     </Group>
@@ -143,7 +156,7 @@ const CreateProductScreen = ({history}) => {
                     <Row>
                         <Col>
                             <Button type='submit' variant='primary' className='my-2'> 
-                            Submit
+                            UPDATE
                             </Button>
                         </Col>
                         <Col className='d-flex justify-content-end'>
@@ -162,4 +175,4 @@ const CreateProductScreen = ({history}) => {
     )
 }
 
-export default CreateProductScreen;
+export default EditProductScreen;

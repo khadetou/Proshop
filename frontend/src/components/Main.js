@@ -15,6 +15,7 @@ import OrderScreen from './Screens/OrderScreen';
 import UserListScreen from './Screens/UserListScreen';
 import ListProductScreen from './Screens/ListProductScreen';
 import CreateProductScreen from './Screens/CreateProductScreen';
+import EditProductScreen from './Screens/EditProductScreen';
 import UserEditScreen from './Screens/UserEditScreen'
 import PrivateRoute from './routing/PrivateRoute';
 
@@ -33,6 +34,7 @@ const Main = () => {
                <PrivateRoute exact path='/admin/userlist' component={UserListScreen}/>
                <PrivateRoute exact path='/admin/productlist' component={ListProductScreen}/>
                <PrivateRoute exact path='/admin/createproduct' component={CreateProductScreen}/>
+               <PrivateRoute exact path='/admin/product/:id/edit' component={EditProductScreen}/>
                <PrivateRoute exact path='/admin/user/:id/edit' component={UserEditScreen}/>
                <PrivateRoute exact path='/order/:id' component={OrderScreen}/>
                <Route exact path='/product/:id' component={ProductScreen}/>
