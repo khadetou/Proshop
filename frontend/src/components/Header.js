@@ -4,7 +4,8 @@ import {LinkContainer} from 'react-router-bootstrap';
 import { FaShoppingCart} from "react-icons/fa";
 import { FaUserAlt} from "react-icons/fa";
 import {useSelector, useDispatch} from 'react-redux';
-import {logout} from '../actions/authActions'
+import {logout} from '../actions/authActions';
+import SearchBox from './SearchBox';
 
 const Header = () => {
     const {Brand, Toggle, Collapse} = Navbar;
@@ -20,12 +21,15 @@ const Header = () => {
                 <Container>
                     <LinkContainer to='/'>
                         <Brand>ProShop</Brand>
+                       
                     </LinkContainer>
                     
 
                     <Toggle aria-controls="basic-navbar-nav" />
-
+               
                     <Collapse id="basic-navbar-nav">
+                    <SearchBox/>
+                    
                         <Nav className="ms-auto">
                             
                             <LinkContainer  to='/cart'>

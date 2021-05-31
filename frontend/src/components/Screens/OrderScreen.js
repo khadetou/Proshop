@@ -22,7 +22,7 @@ const OrderScreen = ({match}) => {
     const deliver = useSelector(state=>state.deliver);
     const user = useSelector(state=>state.auth.user);
     const {success:paymentSucceeded, loading:paymentLoading}= payment;
-    const {success:deliverSuccess, loading:deliverLoading}= deliver;
+    const {success:deliverSuccess}= deliver;
 
     const {Item} = ListGroup;
 
@@ -59,7 +59,7 @@ const OrderScreen = ({match}) => {
             }
         }
 
-    },[dispatch, orderId, orderd ,paymentSucceeded, deliverSuccess])
+    },[dispatch, orderId, orderd ,paymentSucceeded, deliverSuccess, match])
 
    const paymentSuccessHandler = (paymentResult) =>{
     dispatch(updatePaid(orderId,paymentResult));
