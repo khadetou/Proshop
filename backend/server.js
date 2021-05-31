@@ -3,6 +3,7 @@ import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import morgan from 'morgan';
 import {notFound, errorHandler} from './middleware/errorMiddleware.js';
 import productRoutes from './routes/productRoutes.js'; 
 import userRoutes from './routes/userRoutes.js';
@@ -24,7 +25,10 @@ connectDB();
 //Should be placed before our requests
 app.use(express.json({extended:false}));
 
-
+//Show us the actions that we hit
+if(NODE_ENV=== 'development'){
+    app.use(morgan('dev'))
+}
 app.get('/', (req, res)=>{
     res.send('Api is running');
 });
