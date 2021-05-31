@@ -1,5 +1,5 @@
 import express from 'express';
-import {addOrderItems, getOrderById, updateOrderToPaid, getOrders, deleteOrder,getAllOrders} from '../controllers/orderController.js';
+import {addOrderItems, getOrderById, updateOrderToPaid, getOrders, deleteOrder,getAllOrders,updateOrderToDelivered} from '../controllers/orderController.js';
 import authMiddleware,{isAdmin} from '../middleware/authMiddleware.js';
 
 
@@ -16,6 +16,8 @@ router.route('/:id').get(authMiddleware,getOrderById)
 
 
 router.route('/:id/paid').put(authMiddleware,updateOrderToPaid);
+
+router.route('/:id/delivered').put(authMiddleware, isAdmin,updateOrderToDelivered);
 
 
 

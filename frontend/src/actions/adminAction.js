@@ -1,4 +1,4 @@
-import { DELETE_USER_FAIL, DELETE_USER_SUCCESS, USER_BYID_FAIL, USER_BYID_SUCCESS, USER_LIST_FAIL, USER_LIST_SUCCESS, UPDATE_USER_BYID_SUCCESS, UPDATE_USER_BYID_FAIL } from './type';
+import { DELETE_USER_FAIL, DELETE_USER_SUCCESS, USER_BYID_FAIL, USER_BYID_SUCCESS, USER_LIST_FAIL, USER_LIST_SUCCESS, UPDATE_USER_BYID_SUCCESS, UPDATE_USER_BYID_FAIL, DELIVERED_SUCCESS, DELIVERED_FAIL } from './type';
 import axios from 'axios';
 import {setAlert} from './alertAction';
 
@@ -94,6 +94,34 @@ export const deletUser = (id)=> async dispatch=>{
         dispatch({
             type:DELETE_USER_FAIL,
             preload: error.response.data.message
+        })
+    }
+}
+
+
+//UPDATE INTO DELIVERED
+export const updateDelivered = (id, deliveryResult)=> async dispatch=>{
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify(deliveryResult);
+    
+    try {
+        
+        const {data}= await axios.put(`/api/order/${id}/delivered`,body, config);
+
+        dispatch({
+            type: DELIVERED_SUCCESS,
+            preload: data
+        })
+ 
+    } catch (error) {
+        dispatch({
+            type: DELIVERED_FAIL,
+            preload: error
         })
     }
 }

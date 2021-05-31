@@ -8,6 +8,7 @@ import orderReducer from './orderReducer';
 import paymentOrder from './paymentOrder';
 import myorderReducers from './myorderReducers';
 import adminReducer from './adminReducer';
+import deliverReducer from './deliverReducer';
 
 export default combineReducers({
     product: productReducers,
@@ -17,6 +18,7 @@ export default combineReducers({
     auth: authReducer,
     orders: orderReducer,
     payment: paymentOrder,
+    deliver: deliverReducer,
     myorders: myorderReducers,
     admin: adminReducer
 })

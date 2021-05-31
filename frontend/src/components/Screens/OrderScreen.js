@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { Row, Col, ListGroup, Card, Image} from 'react-bootstrap';
+import { Row, Col, ListGroup, Card, Image, Button} from 'react-bootstrap';
 import {PayPalButton} from 'react-paypal-button-v2';
 import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Message from '../Message';
 import Loader from '../Loader';
 import {getOrderItems, updatePaid} from '../../actions/productAction';
+import {updateDelivered} from '../../actions/adminAction';
 import {PAID_RESET} from '../../actions/type';
+import {DELIVERED_RESET} from '../../actions/type';
 import axios from 'axios';
 
 const OrderScreen = ({match}) => {
@@ -17,7 +19,10 @@ const OrderScreen = ({match}) => {
 
     const [sdk, setSdk]= useState(false);
     const payment = useSelector(state=>state.payment);
+    const deliver = useSelector(state=>state.deliver);
+    const user = useSelector(state=>state.auth.user);
     const {success:paymentSucceeded, loading:paymentLoading}= payment;
+    const {success:deliverSuccess, loading:deliverLoading}= deliver;
 
     const {Item} = ListGroup;
 
@@ -42,8 +47,9 @@ const OrderScreen = ({match}) => {
             document.body.appendChild(script);
         }
 
-        if(paymentSucceeded || !orderd){
+        if(paymentSucceeded || !orderd || deliverSuccess|| match.params.id !== orderd._id){
             dispatch({type:PAID_RESET})
+            dispatch({type:DELIVERED_RESET})
             dispatch(getOrderItems(orderId))
         }else if(!orderd.isPaid){
             if(!window.paypal){
@@ -53,12 +59,15 @@ const OrderScreen = ({match}) => {
             }
         }
 
-    },[dispatch, orderId, orderd ,paymentSucceeded])
+    },[dispatch, orderId, orderd ,paymentSucceeded, deliverSuccess])
 
    const paymentSuccessHandler = (paymentResult) =>{
     dispatch(updatePaid(orderId,paymentResult));
    }
 
+   const deliverHandler = ()=>{
+       dispatch(updateDelivered(orderd._id))
+   }
     return (
        loading ? <Loader/> :
         error? <Message variant ='danger'>{error}</Message>:
@@ -147,7 +156,7 @@ const OrderScreen = ({match}) => {
                                     <Col>${orderd.totalPrice}</Col>
                                 </Row>
                             </Item>
-                            {!orderd.isPaid &&
+                            {user!==null && !user.isAdmin?(!orderd.isPaid &&
                             (
                                 <Item>
                                     {paymentLoading && <Loader/>}
@@ -156,6 +165,12 @@ const OrderScreen = ({match}) => {
                                             <PayPalButton amount ={orderd.totalPrice} onSuccess={paymentSuccessHandler}/>
                                         )
                                     }
+                                </Item>
+                            )):(
+                                <Item>
+                                   
+                                    <Button type='button' className='btn btn-block w-100' onClick={deliverHandler}>Deliver</Button>
+                        
                                 </Item>
                             )}
                         </ListGroup>

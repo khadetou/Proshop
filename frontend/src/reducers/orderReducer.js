@@ -19,14 +19,15 @@ export default (state= initialState, action)=>{
                 ...state,
                 loading: false,
                 success: true,
-                order: preload
+                order: preload,
+
             }
         case GET_ORDERS_SUCCESS:
             return{
                 ...state,
                 loading:false,
                 success: true,
-                orders:preload
+                orders:preload,
             }
         case ORDER_ITEMS_SUCCESS:
             return{
