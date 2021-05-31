@@ -1,4 +1,5 @@
 import React,{ useState} from 'react';
+import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {createProduct} from '../../actions/productAction';
 import {Link} from 'react-router-dom';
@@ -10,7 +11,7 @@ import Message from '../Message';
 const CreateProductScreen = ({history}) => {
     const dispatch = useDispatch();
     
-    const [formData, setFormData] = useState({
+    const [formDatas, setFormData] = useState({
         name:'',
         image:'',
         brand:'',
@@ -21,25 +22,48 @@ const CreateProductScreen = ({history}) => {
         price: 0,
         countInStock: 1
     })
-
+    const [uploading, setUploading] = useState(false)
 
     
-    const {Group,Control, Label} =Form;
+    const {Group,Control, Label, File} =Form;
 
-    const {name, image, brand, category, description, price, countInStock}=formData;
+    const {name, image, brand, category, description, price, countInStock}=formDatas;
 
 
     const alert = useSelector(state=> state.alert);
     const {loading, error}= useSelector(state=>state.productDetail);
 
+    const uploadFileHandler = async (e)=>{
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image',file);
+        setUploading(true);
+
+        try {
+            const config = {
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            }
+
+            const {data} = await axios.post('/api/upload', formData, config);
+           
+           setFormData({...formDatas,image: data})
+           setUploading(false)
+
+        } catch (error) {
+            console.log(error.response.data);
+            setUploading(false)
+        }
+    }
 
     const onChange = (e)=>{
-        setFormData({...formData, [e.target.name]: e.target.value})
+        setFormData({...formDatas, [e.target.name]: e.target.value})
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        dispatch(createProduct(formData, history));
+        dispatch(createProduct(formDatas, history));
     }
 
     
@@ -77,9 +101,16 @@ const CreateProductScreen = ({history}) => {
                         name= 'image'
                         placeholder='Enter image url' 
                         value={image} 
-                        required
                         onChange={(e)=>onChange(e)}>
                         </Control>
+                        <File
+                        id='image-file'
+                        label='Choose file'
+                        custom
+                        onChange={uploadFileHandler}
+                        >
+                        </File>
+                        {uploading && <Loader/>}
                     </Group>
     
                     <Group controlId='brand'>

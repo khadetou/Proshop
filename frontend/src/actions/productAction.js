@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL} from './type';
 import axios from 'axios';
 import {setAlert} from './alertAction';
 //GET PRODUCTS
@@ -71,8 +71,8 @@ export const deleteProduct = (id)=> async dispatch=>{
     }
 }
 
-//CREATE / UPDATE PRODUCT
-export const createProduct = (formData, history, edit=false)=>async dispatch=>{
+//CREATE PRODUCT
+export const createProduct = (formData, history)=>async dispatch=>{
     try{
         const config= {
             headers:{
@@ -85,10 +85,10 @@ export const createProduct = (formData, history, edit=false)=>async dispatch=>{
             type: PRODUCT_DETAILS_SUCCESS,
             preload: data
         })
-        dispatch(setAlert(edit?'PRODUCT UPDATED':'PRODUCT CREATED', 'success'));
-        if(!edit){
+        dispatch(setAlert('PRODUCT CREATED', 'success'));
+       
             history.push('/admin/productlist');
-        }
+      
     }catch(error){
         dispatch({
             type: PRODUCT_DETAILS_FAIL,
@@ -96,6 +96,34 @@ export const createProduct = (formData, history, edit=false)=>async dispatch=>{
         })
     }
 }
+
+
+// UPDATE PRODUCT
+export const updateProduct = (formData, id)=>async dispatch=>{
+    try{
+        const config= {
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }
+
+        const {data} = await axios.put(`/api/products/${id}`,formData, config);
+        dispatch({
+            type: PRODUCT_UPDATE_SUCCESS,
+            preload: data
+        })
+            dispatch(setAlert('PRODUCT UPDATED', 'success'));
+    }catch(error){
+        dispatch({
+            type: PRODUCT_UPDATE_FAIL,
+            preload:error.response.data.message
+        })
+    }
+}
+
+
+
+
 
 //Add TO CART
 export const addCart = (id, qty)=> async (dispatch, getState)=>{

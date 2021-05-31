@@ -82,15 +82,6 @@ const createProducts = asyncHandler(async (req, res)=>{
     if(countInStock) productField.countInStock = countInStock;
 
     let product = await Product.findOne({user: req.user.id});
-    if(product){
-        //UPDATE
-        product = await Product.findOneAndUpdate(
-            {user: req.user.id},
-            {$set: productField},
-            {new: true}
-        )
-        return res.json(product)
-    }
 
     //CREATE 
     product = new Product(productField);
@@ -98,4 +89,40 @@ const createProducts = asyncHandler(async (req, res)=>{
     res.json(product);
 })
 
-export {getAllProducts, getProductById, createProducts} ;
+
+//@desc Create or update product
+//@route put/api/products
+//@access private, admin
+
+const updateProduct = asyncHandler(async (req, res)=>{
+    //CHECK IF NAME IMAGE AND PRICE ARE PRESENT
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    //CRATE AND UPDATE SECTION
+    const {name, image, brand, category, description, reviews, rating, numReviews, price, countInStock, } = req.body;
+    let product  = await Product.findById(req.params.id)
+
+    if(product){
+        product.name = name || product.name,
+        product.image = image || product.image,
+        product.brand = brand || product.brand,
+        product.category = category || product.category,
+        product.description = description || product.description,
+        product.rating = rating || product.rating,
+        product.numReviews = numReviews || product.numReviews,
+        product.price = price || product.price,
+        product.countInStock = countInStock || product.countInStock
+    }
+
+    const updatedProduct =  await product.save();
+    res.json(updatedProduct);
+})
+
+
+
+
+
+export {getAllProducts, getProductById, createProducts, updateProduct} ;

@@ -1,4 +1,4 @@
-import {PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_RESQUEST, PRODUCT_DETAILS_SUCCESS} from '../actions/type';
+import {PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_RESQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_UPDATE_SUCCESS} from '../actions/type';
 
 const initialState ={
     productsD: null,
@@ -17,6 +17,7 @@ export default (state = initialState, action)=>{
             }
 
             case PRODUCT_DETAILS_SUCCESS:
+            case PRODUCT_UPDATE_SUCCESS:
                 return{
                     ...state,
                     productsD: preload,
@@ -24,6 +25,7 @@ export default (state = initialState, action)=>{
                     loading: false
                 }
             case PRODUCT_DETAILS_FAIL:
+            case PRODUCT_UPDATE_FAIL:
                 return{
                     ...state,
                     error: error
