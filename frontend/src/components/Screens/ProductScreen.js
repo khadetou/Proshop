@@ -17,10 +17,10 @@ const ProductScreen = ({history, match}) => {
 
     useEffect(()=>{
         dispatch(getProductDetails(match.params.id))
-
     },[dispatch, match]);
 
-    const {name, image, rating, numReviews, price, description, countInStock} = productsD
+
+    
     const {Item} = ListGroup;
    
 
@@ -40,23 +40,23 @@ const ProductScreen = ({history, match}) => {
 
           productsD !== null && (<Row>
           <Col md={6}>
-              <Image src={image} alt={name} fluid/>
+              <Image src={productsD.image} alt={productsD.name} fluid/>
           </Col>
           <Col md={3}>
               <ListGroup variant='flush'>
                 <Item>
-                    <h3>{name}</h3>
+                    <h3>{productsD.name}</h3>
                 </Item>
                 <Item>
-                    <Rating value={rating} text={`${numReviews} reviews`} />
-                </Item>
-
-                <Item>
-                    Price: ${price}
+                    <Rating value={productsD.rating} text={`${productsD.numReviews} reviews`} />
                 </Item>
 
                 <Item>
-                    Description: {description}
+                    Price: ${productsD.price}
+                </Item>
+
+                <Item>
+                    Description: {productsD.description}
                 </Item>
               </ListGroup>
           </Col>
@@ -67,29 +67,29 @@ const ProductScreen = ({history, match}) => {
                         <Item>
                             <Row>
                                 <Col>Price: </Col>
-                                <Col><strong>${price}</strong></Col>
+                                <Col><strong>${productsD.price}</strong></Col>
                             </Row>
                         </Item>
                         <Item>
                             <Row>
                                 <Col>Status: </Col>
-                                <Col>{countInStock > 0 ? 'In Stock': 'Out of Stock' }</Col>
+                                <Col>{productsD.countInStock > 0 ? 'In Stock': 'Out of Stock' }</Col>
                             </Row>
                         </Item>
-                        {countInStock >0  && (
+                        {productsD.countInStock >0  && (
                         <Item>
                             <Row>
                                 <Col>Qty</Col>
                                 <Col>
                                     <Form.Control as ='select' value={qty} onChange={(e)=>setQty(e.target.value)} >
-                                        {[...Array(countInStock).keys()].map((x)=>
+                                        {[...Array(productsD.countInStock).keys()].map((x)=>
                                         (<option key={x +1} value={x+1}>{x +1}</option>))}
                                     </Form.Control>
                                 </Col>
                             </Row>
                         </Item>) }
                         <Item>
-                            <Button className='btn-block' type='button' disabled={countInStock === 0} onClick={addToCartHandler}>
+                            <Button className='btn-block' type='button' disabled={productsD.countInStock === 0} onClick={addToCartHandler}>
                                 Add to Cart
                             </Button>
                         </Item>

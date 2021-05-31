@@ -19,7 +19,6 @@ export default (state = initialState, action)=>{
             case PRODUCT_DETAILS_SUCCESS:
             case PRODUCT_UPDATE_SUCCESS:
                 return{
-                    ...state,
                     productsD: preload,
                     reviews:[],
                     loading: false

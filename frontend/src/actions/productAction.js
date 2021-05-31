@@ -1,4 +1,4 @@
-import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL} from './type';
+import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_RESQUEST,PRODUCT_DETAILS_SUCCESS, CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_ITEMS_SUCCESS, ORDER_ITEMS_FAIL, PAID_FAIL, PAID_SUCCESS, GET_ORDERLIST_SUCCESS, GET_ORDERLIST_FAIL, PRODUCT_DELETE_SUCCESS, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, GET_ORDERS_SUCCESS, GET_ORDERS_FAIL} from './type';
 import axios from 'axios';
 import {setAlert} from './alertAction';
 //GET PRODUCTS
@@ -225,6 +225,28 @@ export const getOrderItems = (id) => async (dispatch)=>{
     }
 
 } 
+
+//GET ORDERS FROM ADMIN
+export const getAllOrders = ()=> async dispatch=>{
+    try {
+        const config ={
+            headers :{
+                'Content-Type':'application/json'
+            }
+        }
+
+        const {data} = await axios.get('/api/order',config);
+        dispatch({
+            type:GET_ORDERS_SUCCESS,
+            preload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: GET_ORDERS_FAIL,
+            preload: error.response.data.message
+        })
+    }
+}
 
 
 //UPDATE INTO PAID

@@ -99,17 +99,28 @@ export const getOrders = asyncHandler(async (req, res)=>{
 
 });
 
+//@desc get orders by admin
+//@route Get/api/orders
+//@access private Admin
+
+export const getAllOrders = asyncHandler(async (req, res)=>{
+    
+    const orders  = await Order.find({}).populate('user', 'name email');
+    res.json(orders);
+
+});
+
 
 
 //@desc delete productOrdered
 //@route delete/api/myorders/:id
 //@access Private/Admin
-export const deleteProduct= asyncHandler(async (req, res)=>{
+export const deleteOrder= asyncHandler(async (req, res)=>{
 
-    const product = await Order.findById(req.params.id)
+    const order = await Order.findById(req.params.id)
 
-    if(product){
-        product.remove()
+    if(order){
+        await order.remove()
         res.json({message:'Products deleted removed'});
     }else{
         res.status(404);
