@@ -9,6 +9,7 @@ import paymentOrder from './paymentOrder';
 import myorderReducers from './myorderReducers';
 import adminReducer from './adminReducer';
 import deliverReducer from './deliverReducer';
+import productCreateReview from './productCreateReview';
 
 export default combineReducers({
     product: productReducers,
@@ -20,5 +21,6 @@ export default combineReducers({
     payment: paymentOrder,
     deliver: deliverReducer,
     myorders: myorderReducers,
-    admin: adminReducer
+    admin: adminReducer,
+    review: productCreateReview
 })
