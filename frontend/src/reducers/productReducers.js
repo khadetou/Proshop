@@ -18,7 +18,9 @@ export default (state = initialState, action) =>{
         case PRODUCT_LIST_SUCCESS:
             return{
                 ...state,
-                products: preload,
+                products: preload.products,
+                pages: preload.pages,
+                page: preload.page,
                 loading: false
             }
         case PRODUCT_DELETE_SUCCESS:

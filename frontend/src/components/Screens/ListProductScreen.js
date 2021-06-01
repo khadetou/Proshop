@@ -5,15 +5,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import Message from '../Message';
 import Loader from '../Loader';
 import {getProducts, deleteProduct} from '../../actions/productAction';
-
-const ListProductScreen = ({history}) => {
+import Paginate from '../Paginate';
+const ListProductScreen = ({history, match}) => {
     const dispatch = useDispatch();
-    const {products,successdelete, loading, error} = useSelector(state=>state.product);
+    const {products,successdelete, loading, error, pages, page} = useSelector(state=>state.product);
+    const pageNumber = match.params.pageNumber || 1;
+
     useEffect(()=>{
 
-        dispatch(getProducts())
+        dispatch(getProducts('',pageNumber))
 
-    },[dispatch,successdelete])
+    },[dispatch,successdelete, pageNumber])
 
     const deleteHandler = (id)=>{
        if(window.confirm('Are you sure? There will be no going back!')){
@@ -39,6 +41,7 @@ const ListProductScreen = ({history}) => {
             </Row>
             {loading ? <Loader/>: error ? <Message variant='danger'>{error}</Message>:
             (
+            <>
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                       <tr>
@@ -73,6 +76,8 @@ const ListProductScreen = ({history}) => {
                         ))}
                     </tbody>
                 </Table>
+                <Paginate pages={pages} page={page} isAdmin={true} />
+                </>
             )}
           
         </>

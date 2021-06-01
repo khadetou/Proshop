@@ -25,7 +25,9 @@ const Main = () => {
         <main className="py-3">
             <Container>
                <Route exact path='/' component={HomeScreen}/>
+               <Route exact path='/page/:pageNumber' component={HomeScreen}/>
                <Route exact path='/search/:keyword' component={HomeScreen}/>
+               <Route exact path='/search/:keyword/page/:pageNumber' component={HomeScreen}/>
                <Route exact path='/login' component={LoginScreen}/>
                <Route exact path='/register' component={RegisterScreen}/>
                <PrivateRoute exact path='/profile' component={ProfileScreen}/>
@@ -36,6 +38,7 @@ const Main = () => {
                <PrivateRoute exact path='/admin/userlist' component={UserListScreen}/>
                <PrivateRoute exact path='/admin/orderlist' component={OrderListScreen}/>
                <PrivateRoute exact path='/admin/productlist' component={ListProductScreen}/>
+               <PrivateRoute exact path='/admin/productlist/:pageNumber' component={ListProductScreen}/>
                <PrivateRoute exact path='/admin/createproduct' component={CreateProductScreen}/>
                <PrivateRoute exact path='/admin/product/:id/edit' component={EditProductScreen}/>
                <PrivateRoute exact path='/admin/user/:id/edit' component={UserEditScreen}/>

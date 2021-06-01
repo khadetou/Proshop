@@ -2,13 +2,13 @@ import {PRODUCT_LIST_FAIL, SET_PRODUCT_LOADING, PRODUCT_LIST_RESQUEST, PRODUCT_L
 import axios from 'axios';
 import {setAlert} from './alertAction';
 //GET PRODUCTS
-export const getProducts = (keyword = '') => async (dispatch)=>{
+export const getProducts = (keyword = '', pageNumber = '') => async (dispatch)=>{
 
     try {
         dispatch({
             type: PRODUCT_LIST_RESQUEST
         })
-        const {data} = await axios.get(`/api/products?keyword=${keyword}`)
+        const {data} = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
             preload: data
