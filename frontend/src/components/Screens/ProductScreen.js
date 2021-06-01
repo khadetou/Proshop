@@ -32,8 +32,11 @@ const ProductScreen = ({history, match}) => {
             setComment('');
             dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
         }
-        dispatch(getProductDetails(match.params.id))
-    },[dispatch, match,success]);
+        if(productsD === null || productsD._id !== match.params.id ){
+            dispatch(getProductDetails(match.params.id))
+        }
+    
+    },[dispatch, match,success, productsD]);
 
     const submitHandler = (e)=>{
         e.preventDefault();
@@ -56,7 +59,7 @@ const ProductScreen = ({history, match}) => {
 
     return (
         <>
-        <Meta title={productsD.name}/>
+        <Meta title={productsD!==null && productsD.name}/>
           <Link className="btn btn-dark py-3 rounded-pill mb-3" to='/'>Go back</Link>
 
           {loading?

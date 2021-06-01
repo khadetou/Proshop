@@ -29,9 +29,6 @@ app.use(express.json({extended:false}));
 if(NODE_ENV=== 'development'){
     app.use(morgan('dev'))
 }
-app.get('/', (req, res)=>{
-    res.send('Api is running');
-});
 
 
 //GET PAYPAL API ID     
@@ -52,6 +49,18 @@ const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 
+//DEPLOYEMENT
+if(NODE_ENV=== 'production'){
+    app.use(express.static(path.join(__dirname, '/frontend/build')))
+    app.get('*',(req, res)=> res.sendFile(path.resolve(__dirname, 'frontend/build', 'index.html')))
+}else{
+    app.get('/', (req, res)=>{
+        res.send('Api is running');
+    });
+    
+}
+
+
 /**MIDDLEWARE */
 
 
@@ -59,6 +68,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(notFound);
 //Middle ware allows us to get a json error instead of a html file error test it later
 app.use(errorHandler);
+
 
 
 
