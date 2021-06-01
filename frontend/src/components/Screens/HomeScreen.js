@@ -6,7 +6,8 @@ import {getProducts} from '../../actions/productAction';
 import Paginate from '../Paginate';
 import Message from '../Message';
 import Loader from '../Loader';
-
+import ProductCarousel from '../ProductCarousel';
+import Meta from '../Meta';
 const HomeScreen = ({match}) => {
 const dispatch = useDispatch();
 const product = useSelector(state=> state.product);
@@ -23,6 +24,8 @@ useEffect(()=>{
 
     return (
         <>
+            <Meta/>
+          {!keyword && !localStorage.getItem('keyw') && <ProductCarousel/>}
             <h1>Latest Products</h1>
             {loading ?
             (<Loader/>): 
@@ -30,6 +33,7 @@ useEffect(()=>{
             <Message variant='danger'>{error}</Message>: 
             (
             <>
+         
             <Row>
                 {products !== null && products.map((product,idx)=>(
                 <Col key={idx} sm={12} md={6} lg={4} xl={3}>

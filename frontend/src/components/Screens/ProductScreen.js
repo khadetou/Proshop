@@ -8,6 +8,7 @@ import {Row, Col, Image, ListGroup, Card, Button,Form} from 'react-bootstrap';
 import Rating from '../SubComponents/Rating';
 import {creatReview} from '../../actions/userAction';
 import {PRODUCT_CREATE_REVIEW_RESET} from '../../actions/type';
+import Meta from '../Meta';
 
 
 const ProductScreen = ({history, match}) => {
@@ -55,6 +56,7 @@ const ProductScreen = ({history, match}) => {
 
     return (
         <>
+        <Meta title={productsD.name}/>
           <Link className="btn btn-dark py-3 rounded-pill mb-3" to='/'>Go back</Link>
 
           {loading?

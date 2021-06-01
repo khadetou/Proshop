@@ -16,11 +16,13 @@ const SearchBox = () => {
             history.push(`/search/${keyword.current.value}`)
         }else{
             history.push('/')
+            localStorage.removeItem('keyw')
         }
     }
    
     const onchangeHandler = (e)=>{
         dispatch(getProducts(keyword.current.value))
+        localStorage.setItem('keyw', keyword.current.value);
     }
     const {Control} = Form;
     return (
