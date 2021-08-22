@@ -14,7 +14,8 @@ const router = express.Router();
 router.post('/',[authMidleware, isAdmin, 
 check('name', 'Name is required').not().isEmpty(),
 check('image', 'Image is required').not().isEmpty(),
-check('price','price is required').not().isEmpty()],createProducts)
+check('price','price is required').not().isEmpty()],createProducts);
+
 
 router.get('/top', getTopProducts);
 

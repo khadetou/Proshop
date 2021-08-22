@@ -1,126 +1,134 @@
-import {setAlert} from './alertAction';
-import axios from 'axios';
-import setAuthToken from '../utils/setAuthToken';
-import { AUTH_ERROR, LOGIN_SUCCESS, LOG_OUT, REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED, UPDATED_USER, UPDATE_FAIL } from './type';
+import { setAlert } from "./alertAction";
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+import {
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOG_OUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  USER_LOADED,
+  UPDATED_USER,
+  UPDATE_FAIL,
+} from "./type";
+
 //LOAD USER
-export const loadUser = ()=> async dispatch =>{
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
-  
-    if(localStorage.token){
-        setAuthToken(localStorage.token)
-    }
-
-    try{
-        const res = await axios.get('/api/user/profile');
-        dispatch({
-            type: USER_LOADED,
-            preload: res.data
-        })
-    }catch(err){
-       
-        dispatch({
-            type: AUTH_ERROR
-        })
-    }
-}
+  try {
+    const res = await axios.get("/api/user/profile");
+    dispatch({
+      type: USER_LOADED,
+      preload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
 
 //REGISTER
-export const register  = ({name, email, password})=> async dispatch =>{
-
+export const register =
+  ({ name, email, password }) =>
+  async (dispatch) => {
     const config = {
-        headers:{
-            'Content-Type': 'application/json'
-        }
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({ name, email, password });
+
+    try {
+      const { data } = await axios.post("/api/users", body, config);
+      dispatch({
+        type: REGISTER_SUCCESS,
+        preload: data,
+      });
+
+      dispatch(loadUser());
+    } catch (error) {
+      const errors = error.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      }
+
+      dispatch({
+        type: REGISTER_FAIL,
+      });
     }
+  };
 
-    const body = JSON.stringify({name, email, password});
+//LOGIN USER
+export const login =
+  ({ email, password }) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify({ email, password });
 
-    try{
-        const {data} = await axios.post('/api/users', body, config);
-        dispatch({
-            type: REGISTER_SUCCESS,
-            preload: data
-        })
+    try {
+      const { data } = await axios.post("/api/user", body, config);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        preload: data,
+      });
 
-        dispatch(loadUser());
-    }catch(error){
-        const errors = error.response.data.errors;
-        if(errors){
-            errors.forEach(error=> dispatch (setAlert(error.msg, 'danger')));
-        }
+      dispatch(loadUser());
+    } catch (error) {
+      const errors = error.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger", 600)));
+      }
 
-        dispatch({
-            type: REGISTER_FAIL
-        })
+      dispatch({
+        type: REGISTER_FAIL,
+      });
     }
-}
+  };
 
-    //LOGIN USER
-    export const login = ({email, password})=> async dispatch =>{
-        
+//UPDATE USER PASSWORD
+export const updateUser =
+  ({ id, name, email, password }) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-        const config = {
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }
-        const body = JSON.stringify({email, password});
+    const body = JSON.stringify({ id, name, email, password });
 
-        try{
-            const {data} = await axios.post('/api/user', body, config);
-            dispatch({
-                type: LOGIN_SUCCESS,
-                preload: data
-            })
+    try {
+      const { data } = await axios.put("/api/users/profile-edit", body, config);
+      dispatch({
+        type: UPDATED_USER,
+        preload: data,
+      });
+      dispatch(setAlert("PASSWORD UPDATED  SUCCESSFULLY", "success"));
+    } catch (error) {
+      const errors = error.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      }
 
-            dispatch(loadUser());
-
-        }catch(error){
-            const errors = error.response.data.errors;
-            if(errors){
-                errors.forEach(error=> dispatch (setAlert(error.msg, 'danger', 600)));
-            }
-    
-            dispatch({
-                type: REGISTER_FAIL
-            })
-        }
+      dispatch({
+        type: UPDATE_FAIL,
+      });
     }
+  };
 
-    //UPDATE USER PASSWORD
-    export const updateUser  = ({id,name, email, password})=> async dispatch =>{
-
-        const config = {
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }
-    
-        const body = JSON.stringify({id,name, email, password});
-    
-        try{
-            const {data} = await axios.put('/api/users/profile-edit', body, config);
-            dispatch({
-                type: UPDATED_USER,
-                preload: data
-            })
-            dispatch (setAlert('PASSWORD UPDATED  SUCCESSFULLY', 'success'))
-        }catch(error){
-            const errors = error.response.data.errors;
-            if(errors){
-                errors.forEach(error=> dispatch (setAlert(error.msg, 'danger')));
-            }
-    
-            dispatch({
-                type: UPDATE_FAIL
-            })
-        }
-    }
-
-    //LOG OUT 
-    export const logout = ()=> dispatch =>{
-       localStorage.clear()
-        dispatch({
-            type: LOG_OUT
-        })
-    }
+//LOG OUT
+export const logout = () => (dispatch) => {
+  localStorage.clear();
+  dispatch({
+    type: LOG_OUT,
+  });
+};
